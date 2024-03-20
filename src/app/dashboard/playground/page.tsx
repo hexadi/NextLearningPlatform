@@ -1,20 +1,20 @@
 "use client"
-// import type { Metadata } from "next";
 import Image from "next/image";
 import Editor from "@monaco-editor/react";
+import { useEffect } from "react";
 
-// export const metadata: Metadata = {
-//     title: "Profile | Learning Platform",
-//     description: "Personalize your learning experience and keep your profile up-to-date.",
-// };
-
-export default function ProfilePage() {
+export default function PlaygroundPage() {
+    useEffect(() => {
+        document.title = "Playground | Learning Platform"
+    }, [])
     return (<div className={"min-h-screen w-full"}>
         <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">
             <div>
                 <Image src="/icons/back.svg" alt="Back" width={22} height={40} />
             </div>
-            <span className="text-3xl text-white">Playground</span>
+            <span className="text-3xl text-white">
+                Playground
+            </span>
             <span>
                 <Image src="/icons/filter.svg" alt="Filter" width={40} height={40} />
             </span>

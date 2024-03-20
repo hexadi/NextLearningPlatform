@@ -1,12 +1,11 @@
-import type { Metadata } from "next";
+"use client"
 import Image from "next/image";
-
-export const metadata: Metadata = {
-    title: "Profile | Learning Platform",
-    description: "Personalize your learning experience and keep your profile up-to-date.",
-};
+import { useEffect } from "react";
 
 export default function ProfilePage() {
+    useEffect(() => {
+        document.title = "Profile | Learning Platform"
+    }, [])
     return (
         <div className={"min-h-screen w-full"}>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">

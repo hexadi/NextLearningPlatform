@@ -1,14 +1,12 @@
-import type { Metadata } from "next";
+"use client"
 import Image from "next/image";
+import { useEffect } from "react";
 import Card from "@/components/card";
 
-
-export const metadata: Metadata = {
-    title: "My Courses | Learning Platform",
-    description: "Unleash your potential with our engaging online courses designed to empower learners of all levels.",
-};
-
-export default function CoursesPage() {
+export default function MyCoursesPage() {
+    useEffect(() => {
+        document.title = "My Courses | Learning Platform"
+    }, [])
     return (
         <>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">

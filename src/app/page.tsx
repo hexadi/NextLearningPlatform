@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+"use client"
 import Image from "next/image";
 import { Inder } from 'next/font/google'
+import { useEffect } from "react";
 import { GlacialIndifference } from "@/font"
 import Alert from "@/components/alert";
 
@@ -9,12 +10,10 @@ const inder = Inder({
   weight: "400"
 })
 
-export const metadata: Metadata = {
-  title: "Login | Learning Platform",
-  description: "Get started by logging in to the learning platform.",
-};
-
 export default function LoginPage() {
+  useEffect(() => {
+    document.title = "Login | Learning Platform"
+  }, [])
   return (
     <div className="h-screen bg-dawn-pink-100 flex flex-col items-center justify-center">
       <div className="fixed w-full">

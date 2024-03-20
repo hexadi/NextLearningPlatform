@@ -1,20 +1,12 @@
-import type { Metadata } from "next";
+"use client"
 import Image from "next/image";
-import { Inder } from 'next/font/google'
-import { GlacialIndifference } from "@/font"
+import { useEffect } from "react";
 import Card from "@/components/card";
 
-const inder = Inder({
-    subsets: ['latin'],
-    weight: "400"
-})
-
-export const metadata: Metadata = {
-    title: "Courses | Learning Platform",
-    description: "Track your progress, access courses, and stay motivated on your learning dashboard.",
-};
-
 export default function CoursesPage() {
+    useEffect(() => {
+        document.title = "Courses | Learning Platform"
+    }, [])
     return (
         <>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">

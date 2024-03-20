@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+"use client"
 import Image from "next/image";
 import { Inder } from 'next/font/google'
+import { useEffect } from "react";
 import { GlacialIndifference } from "@/font"
 
 const inder = Inder({
@@ -8,12 +9,10 @@ const inder = Inder({
     weight: "400"
 })
 
-export const metadata: Metadata = {
-    title: "Sign-Up | Learning Platform",
-    description: "Start your learning journey today: Create a free account.",
-};
-
 export default function SignUpPage() {
+    useEffect(() => {
+        document.title = "Sign-Up | Learning Platform"
+    }, [])
     return (
         <div className="h-screen bg-seagull-300 flex flex-col items-center justify-center">
             <div className="fixed w-full">
