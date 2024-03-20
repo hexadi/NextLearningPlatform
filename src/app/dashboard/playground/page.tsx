@@ -38,10 +38,8 @@ export default function ProfilePage() {
                         language="python"
                         theme="vs-dark"
                         options={{
-                            inlineSuggest: true,
                             fontSize: 16,
-                            formatOnType: true,
-                            autoClosingBrackets: true
+                            formatOnType: true
                         }}
                     />
                 </div>
