@@ -20,12 +20,15 @@ export default function Alert(props: { varients: string, message: string, show: 
         }
     }
     var varient = varientClass[props.varients as keyof typeof varientClass]
-    return props.show == true && <div role="alert" className={props.className}>
-        <div className={varient.mainBg + " " + varient.mainText + " font-bold rounded-t px-4 py-2"}>
-            {varient.heading}
-        </div>
-        <div className={"border border-t-0 " + varient.border + " rounded-b " + varient.secondaryBg + " " + varient.secondaryText + " px-4 py-3"}>
-            <p>{props.message}</p>
-        </div>
-    </div>
+    return props.show == true &&
+        (<div role="alert" className={props.className}>
+            <div className={varient.mainBg + " " + varient.mainText + " font-bold rounded-t px-4 py-2"}>
+                {varient.heading}
+            </div>
+            <div className={"border border-t-0 " + varient.border + " rounded-b " + varient.secondaryBg + " " + varient.secondaryText + " px-4 py-3"}>
+                <p>
+                    {props.message}
+                </p>
+            </div>
+        </div>)
 }
