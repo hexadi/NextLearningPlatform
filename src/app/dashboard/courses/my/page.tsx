@@ -1,9 +1,11 @@
 "use client"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Card from "@/components/card";
+import Card from "@/components/courseCard";
 
 export default function MyCoursesPage() {
+    const router = useRouter()
     useEffect(() => {
         document.title = "My Courses | Learning Platform"
     }, [])
@@ -11,7 +13,7 @@ export default function MyCoursesPage() {
         <>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">
                 <div>
-                    <Image src="/icons/back.svg" alt="Back" width={22} height={40} />
+                    <Image src="/icons/back.svg" alt="Back" width={22} height={40} onClick={() => router.push("/dashboard")} />
                 </div>
                 <span className="text-3xl text-white">
                     My Courses

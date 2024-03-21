@@ -1,5 +1,8 @@
+"use client"
 import Image from "next/image";
 import { Inder } from "next/font/google";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { GlacialIndifference } from "@/font"
 
 const inder = Inder({
@@ -12,6 +15,25 @@ export default function DashboardLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const router = useRouter()
+    const [state, setState] = useState({
+        dropdown: false,
+        switchShow: false
+    })
+    const handleDropdown = () => {
+        setState({
+            ...state,
+            dropdown: !state.dropdown
+        })
+    }
+
+    const handleShowSwitch = () => {
+        setState({
+            ...state,
+            switchShow: true
+        })
+    }
+
     return (
         <div className={"flex flex-col items-center " + inder.className}>
             <header className="w-full py-2.5 bg-dawn-pink-100">
@@ -32,37 +54,40 @@ export default function DashboardLayout({
                             <p>
                                 {/* if the given name is not null. */ null || "Name"}
                             </p>
-                            <Image src={/* if the picture is not blank */ null || "/icons/profile.svg"} alt="User" width={40} height={40} priority className="ml-4 none-drag rounded-full object-cover" style={{ width: "40px", height: "40px" }} />
+                            <Image src={/* if the picture is not blank */ null || "/icons/profile.svg"} alt="User" width={40} height={40} priority className="ml-4 none-drag rounded-full object-cover" style={{ width: "40px", height: "40px" }} onClick={handleDropdown} />
                         </div>
                     }
                 </div>
-                <div className={"absolute right-6 bg-white rounded-lg py-1 top-20 divide-y divide-slate"}>
-                    <div className="flex items-center">
-                        <Image src="/icons/profile.svg" alt="Profile" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
-                        <span className="pr-4 py-1">
-                            Profile
-                        </span>
-                    </div>
-                    <div className="flex items-center">
-                        <Image src="/icons/coding.svg" alt="Playground" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
-                        <span className="pr-4 py-1">
-                            Playground
-                        </span>
-                    </div>
-                    {/* if many roles are true. */ true &&
-                        <div className="flex items-center">
-                            <Image src="/icons/switch.svg" alt="Switch" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
+                {state.dropdown &&
+                    <div className={"absolute right-6 bg-white rounded-lg py-1 top-20 divide-y divide-slate"}>
+                        <div className="flex items-center" onClick={() => router.push("/dashboard/profile")}>
+                            <Image src="/icons/profile.svg" alt="Profile" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
                             <span className="pr-4 py-1">
-                                Switch
+                                Profile
                             </span>
-                        </div>}
-                    <div className="flex items-center">
-                        <Image src="/icons/logout.svg" alt="Logout" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
-                        <span className="pr-4 py-1">
-                            Logout
-                        </span>
+                        </div>
+                        <div className="flex items-center" onClick={() => router.push("/dashboard/playground")}>
+                            <Image src="/icons/coding.svg" alt="Playground" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
+                            <span className="pr-4 py-1">
+                                Playground
+                            </span>
+                        </div>
+                        {state.switchShow &&
+                            <div className="flex items-center" onClick={() => router.push("/switch")}>
+                                <Image src="/icons/switch.svg" alt="Switch" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
+                                <span className="pr-4 py-1">
+                                    Switch
+                                </span>
+                            </div>
+                        }
+                        <div className="flex items-center" onClick={() => router.push("/")}>
+                            <Image src="/icons/logout.svg" alt="Logout" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
+                            <span className="pr-4 py-1">
+                                Logout
+                            </span>
+                        </div>
                     </div>
-                </div>
+                }
             </header>
             {children}
             <footer className="w-full py-10 bg-big-stone-950 text-white text-center">

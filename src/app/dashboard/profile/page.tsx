@@ -1,8 +1,10 @@
 "use client"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function ProfilePage() {
+    const router = useRouter()
     useEffect(() => {
         document.title = "Profile | Learning Platform"
     }, [])
@@ -10,7 +12,7 @@ export default function ProfilePage() {
         <div className={"min-h-screen w-full"}>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">
                 <div>
-                    <Image src="/icons/back.svg" alt="Back" width={22} height={40} />
+                    <Image src="/icons/back.svg" alt="Back" width={22} height={40} onClick={() => router.push("/dashboard")} />
                 </div>
                 <span className="text-3xl text-white">
                     Profile

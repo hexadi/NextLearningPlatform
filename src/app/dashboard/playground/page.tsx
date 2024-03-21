@@ -1,16 +1,18 @@
 "use client"
 import Image from "next/image";
 import Editor from "@monaco-editor/react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function PlaygroundPage() {
+    const router = useRouter()
     useEffect(() => {
         document.title = "Playground | Learning Platform"
     }, [])
     return (<div className={"min-h-screen w-full"}>
         <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">
             <div>
-                <Image src="/icons/back.svg" alt="Back" width={22} height={40} />
+                <Image src="/icons/back.svg" alt="Back" width={22} height={40} onClick={() => router.push("/dashboard")} />
             </div>
             <span className="text-3xl text-white">
                 Playground
@@ -21,7 +23,7 @@ export default function PlaygroundPage() {
         </div>
         <div className="flex justify-end w-2/3 py-5 px-5 items-center">
             <div className="flex">
-                <span className="pr-1 text-lg text-red-600">RESET</span>
+                <span className="pr-1 text-lg text-red">RESET</span>
                 <Image src="/icons/reset.svg" alt="Reset" width={28} height={28} />
             </div>
             <div className="flex pl-2">
@@ -84,7 +86,7 @@ export default function PlaygroundPage() {
                         <span>Result</span>
                     </div>
                     <div className="p-2 text-carrot-orange-500">
-                        {/* if error message is not blank */ "" != "" ? <span className="text-red-600 whitespace-pre-line break-all">Error</span> : <span className="whitespace-pre-line break-all">Output</span>}
+                        {/* if error message is not blank */ "" != "" ? <span className="text-red whitespace-pre-line break-all">Error</span> : <span className="whitespace-pre-line break-all">Output</span>}
                     </div>
                 </div>
             </div>
