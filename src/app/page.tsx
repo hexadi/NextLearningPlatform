@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GlacialIndifference } from "@/font"
 import Alert from "@/components/alert";
+import { useSession, signIn } from "next-auth/react";
 
 const inder = Inder({
   subsets: ['latin'],
@@ -13,6 +14,7 @@ const inder = Inder({
 
 export default function LoginPage() {
   const router = useRouter()
+  const { data: session } = useSession()
   const [alert, setAlert] = useState({
     show: false,
     message: "",
@@ -61,7 +63,13 @@ export default function LoginPage() {
 
   useEffect(() => {
     document.title = "Login | Learning Platform"
-  }, [])
+    if (session !== undefined) {
+      console.log(session)
+    }
+    fetch("/api/test", { method: "GET" })
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+  }, [session])
   return (
     <div className="h-screen bg-dawn-pink-100 flex flex-col items-center justify-center">
       <div className="fixed w-full">
@@ -84,7 +92,7 @@ export default function LoginPage() {
         <div></div>
         <div className="flex justify-center">
           <div className={"rounded-2xl bg-big-stone-950 p-5 " + inder.className} style={{ width: "15rem" }}>
-            <button className="rounded-md bg-white w-full p-1 border-gray-300 text-xs hover:ring-sundown-300 hover:border-sundown-300 border-2">
+            <button className="rounded-md bg-white w-full p-1 border-gray-300 text-xs hover:ring-sundown-300 hover:border-sundown-300 border-2" onClick={() => signIn("google")}>
               <div className="inline-flex items-center">
                 <Image src="/icons/google.svg" alt="Google" width={30} height={30} priority className="mr-1" />
                 <span className="text-base text-black">
