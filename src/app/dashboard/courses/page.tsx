@@ -30,7 +30,7 @@ export default function CoursesPage() {
                 </div>
             </div>
             <div className="grid grid-cols-3 gap-20 w-full z-10 px-20 pb-10">
-                <Card id={"1"} imageUrl={"/sample.png"} courseName={"Sample Course"} route={null} />
+                <Card id={"1"} imageUrl={"/sample.png"} courseName={"Sample Course"} route={null} role="Student" />
             </div>
         </>
     );

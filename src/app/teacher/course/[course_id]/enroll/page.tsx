@@ -12,7 +12,7 @@ export default function StudentPage() {
         <div className={"min-h-screen w-full"}>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">
                 <div>
-                    <Image src="/icons/back.svg" alt="Back" width={22} height={40} onClick={() => router.push("/teacher")} />
+                    <Image src="/icons/back.svg" alt="Back" width={22} height={40} onClick={() => router.push("/dashboard")} />
                 </div>
                 <span className="text-3xl text-white">
                     Student

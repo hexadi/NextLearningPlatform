@@ -1,13 +1,30 @@
 "use client"
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Key, useEffect, useState } from "react";
 import Module from "@/components/module";
 
 export default function CoursePage() {
+    const params = useParams();
     const router = useRouter()
+    const [data, setData]: [{ name: string | undefined, description: string | undefined, isEnrolled: boolean | undefined, module: any[] }, any] = useState({ name: undefined, description: undefined, isEnrolled: undefined, module: [] });
+
+    function enrollCourse() {
+        fetch("/api/course/" + params.course_id + "/enroll", { method: "POST" })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res)
+                setData({ ...data, 'isEnrolled': true })
+            })
+    }
+
     useEffect(() => {
         document.title = "Course | Learning Platform"
+        fetch("/api/course/" + params.course_id, { method: "GET" })
+            .then((res) => res.json())
+            .then((res) => {
+                setData(res)
+            })
     }, [])
     return (
         <>
@@ -24,15 +41,15 @@ export default function CoursePage() {
             <div className="w-full mt-20 mb-10 px-20">
                 <div className="flex justify-between items-center mb-10">
                     <h1 className="text-left text-4xl text-green-vogue-950 ">
-                        Sample Course
+                        {data.name}
                     </h1>
-                    <Image src="/icons/bookmark.svg" alt="Enroll" width={50} height={50} />
+                    {data.isEnrolled ? <Image src="/icons/green_bookmark.svg" alt="Enrolled" width={50} height={50} /> : <Image src="/icons/bookmark.svg" onClick={() => { enrollCourse() }} alt="Enroll" width={50} height={50} />}
                 </div>
                 <h2 className="text-left text-3xl text-green-vogue-950 ">
                     Course Description:
                 </h2>
                 <p className="text-left text-green-vogue-950 mb-10">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt purus in nibh pretium gravida. Praesent tristique et magna sit amet commodo. Cras iaculis pharetra nunc. Nam vulputate placerat ex.
+                    {data.description}
                 </p>
                 {/* <div className="text-left rounded-full border-2 border-black px-5 py-3">
                     <div className="flex justify-between items-center">
@@ -44,8 +61,14 @@ export default function CoursePage() {
                     <p className="pl-10 py-2.5 w-full text-carrot-orange-500" onClick={() => router.push("/dashboard/course/1/1/1")}>Section 1 : Lecture Notes</p>
                     <p className="pl-10 py-2.5 w-full text-carrot-orange-500">Section 2 : Video</p>
                 </div> */}
-                <Module id={"1"} courseId={"1"} sections={[{ id: "1", name: "Section 1 : Lecture Notes" }, { id: "2", name: "Section 2 : Video" }]} route={router} moduleName={"Module 1 : What is Jetson Nano?"}  />
-                <Module id={"2"} courseId={"1"} sections={[{ id: "1", name: "Section 1 : Lecture Notes" }, { id: "2", name: "Section 2 : Video" }]} route={router} moduleName={"Module 2 : What is Jetson Nano?"}  />
+                {data.module.length != 0 && data.module.map((module: { _id: string; courseId: string; materials: any[]; name: string; }) => <Module 
+                key={module._id}
+                id={module._id} 
+                courseId={module.courseId} 
+                sections={module.material} 
+                route={router} 
+                moduleName={module.name} />)
+            }
             </div>
         </>
     );

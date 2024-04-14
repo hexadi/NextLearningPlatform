@@ -33,7 +33,7 @@ export default function TeacherDashboardPage() {
             </div>
             <div className="w-full mt-10 px-20">
                 <div className="flex justify-between items-center mb-10">
-                <div className="flex">
+                    <div className="flex">
                         <span className="text-left text-3xl text-carrot-orange-500 mr-2">
                             Courses
                         </span>
@@ -45,7 +45,7 @@ export default function TeacherDashboardPage() {
                 </div>
             </div>
             <div className="grid grid-cols-4 gap-10 w-full z-10 px-20 mb-10">
-                <CourseCard id={"1"} imageUrl={"/sample.png"} courseName={"Sample Course"} route={router} />
+                <CourseCard id={"1"} role="Teacher" imageUrl={"/sample.png"} courseName={"Sample Course"} route={router} />
             </div>
         </>
     );

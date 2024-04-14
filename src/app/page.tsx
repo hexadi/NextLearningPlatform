@@ -48,27 +48,38 @@ export default function LoginPage() {
     data.forEach(function (value, key) {
       result[key] = value
     })
-    if (result.username == "example" && result.password == "example") {
+    signIn("credentials", {
+      username: data.get("username"),
+      password: data.get("password")
+    }).then(() => {
       handleShowAlert("Login Successful", "success")
       time(1500, () => {
         router.push("/dashboard")
       })
-    } else {
+    }).catch(() => {
       handleShowAlert("Login Failed", "danger")
       time(3000, () => {
         handleHideAlert()
       })
-    }
+    })
   }
 
   useEffect(() => {
     document.title = "Login | Learning Platform"
     if (session !== undefined) {
-      console.log(session)
+      if (session !== null) {
+        if ((session.user as any).role.length == 1) {
+          if ((session.user as any).role.includes("Teacher")) router.replace("/teacher")
+          if ((session.user as any).role.includes("Student")) router.replace("/dashboard")
+          if ((session.user as any).role.includes("Admin")) router.replace("/admin")
+        } else {
+          router.replace("/switch")
+        }
+      }
     }
-    fetch("/api/test", { method: "GET" })
-      .then((res) => res.json())
-      .then((res) => console.log(res))
+    // fetch("/api/test", { method: "GET" })
+    //   .then((res) => res.json())
+    //   .then((res) => console.log(res))
   }, [session])
   return (
     <div className="h-screen bg-dawn-pink-100 flex flex-col items-center justify-center">

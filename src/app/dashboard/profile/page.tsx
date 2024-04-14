@@ -1,15 +1,34 @@
 "use client"
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { ChangeEvent, FormEvent, useEffect } from "react";
 
 export default function ProfilePage() {
     const router = useRouter()
+    const { data: session,status,update} = useSession()
     useEffect(() => {
         document.title = "Profile | Learning Platform"
+        
     }, [])
+    function handleChange(event: ChangeEvent<HTMLInputElement>): void {
+        if ((event as any).target.files.length != 0) {
+
+        }
+    }
+
+    function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault()
+        const data = new FormData(event.currentTarget);
+        var result: any = {}
+        data.forEach(function (value, key) {
+            result[key] = value
+        })
+        update(result)
+    }
+
     return (
-        <div className={"min-h-screen w-full"}>
+        <div className={"min-h-screen w-full" + (status === "loading" ? " blur-md" : "")}>
             <div className="flex justify-between w-full bg-big-stone-950 py-5 px-5 items-center">
                 <div>
                     <Image src="/icons/back.svg" alt="Back" width={22} height={40} onClick={() => router.push("/dashboard")} />
@@ -25,13 +44,14 @@ export default function ProfilePage() {
                 </h1>
             </div>
             <div className="px-10">
-                <div className="flex">
+                <form className="flex" onSubmit={handleSubmit}>
                     <div>
-                        <Image src={/* if the picture is not blank */ null || "/icons/profile_white.svg"} alt="Profile" width={200} height={200} className="bg-big-stone-950 aspect-square object-contain rounded-lg" />
+                        <Image src={session?.user?.image || "/icons/profile_white.svg"} alt="Profile" width={200} height={200} className="bg-big-stone-950 aspect-square object-contain rounded-lg" />
                         <Image src={"/icons/upload.svg"} alt="Upload" width={28} height={28} className="relative bottom-10 left-40" />
                         <span>
                             Profile Picture
                         </span>
+                        <input type="file" id="file" className="hidden" onChange={handleChange} onClick={(event)=> {(event.target as any).value = null}} />
                     </div>
                     <div className="w-2/3 ml-10">
                         <div className="bg-mercury-100 p-5">
@@ -39,15 +59,15 @@ export default function ProfilePage() {
                                 <span className="mr-14 text-calypso-700">
                                     Name
                                 </span>
-                                <input type="text" className="block w-full p-2 text-gray-900 border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-sundown-300 focus:border-sundown-300 border-2" />
+                                <input type="text" name="name" className="block w-full p-2 text-gray-900 border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-sundown-300 focus:border-sundown-300 border-2" defaultValue={session?.user?.name || ""} />
                             </div>
                             <div className="flex items-center mb-10">
                                 <span className="mr-14 text-calypso-700">
                                     Email
                                 </span>
-                                <input type="email" className="block w-full p-2 text-gray-900 border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-sundown-300 focus:border-sundown-300 border-2" />
+                                <input type="email" name="email" className="block w-full p-2 text-gray-900 border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-sundown-300 focus:border-sundown-300 border-2" defaultValue={session?.user?.email || ""} readOnly={true} />
                             </div>
-                            <div className="flex items-center mb-2">
+                            {/* <div className="flex items-center mb-2">
                                 <span className="mr-6 text-carrot-orange-500">
                                     Username
                                 </span>
@@ -58,13 +78,13 @@ export default function ProfilePage() {
                                     Password
                                 </span>
                                 <input type="password" className="block w-full p-2 text-gray-900 border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-sundown-300 focus:border-sundown-300 border-2" />
-                            </div>
+                            </div> */}
                         </div>
                         <div className="w-full flex justify-center mt-5">
-                            <Image src={"/icons/check.svg"} alt="Check" width={40} height={40} />
+                            <button type="submit"><Image src={"/icons/check.svg"} alt="Check" width={40} height={40} /></button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import { Inder } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GlacialIndifference } from "@/font"
+import { useSession, signOut } from "next-auth/react";
 
 const inder = Inder({
     subsets: ['latin'],
@@ -16,15 +17,18 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }>) {
     const router = useRouter()
+    const { data: session } = useSession()
     const [state, setState] = useState({
         dropdown: false,
         switchShow: false
     })
     const handleDropdown = () => {
-        setState({
-            ...state,
-            dropdown: !state.dropdown
-        })
+        if (session !== undefined) {
+            setState({
+                ...state,
+                dropdown: !state.dropdown
+            })
+        }
     }
 
     const handleShowSwitch = () => {
@@ -33,6 +37,14 @@ export default function DashboardLayout({
             switchShow: true
         })
     }
+
+    useEffect(() => {
+        if (session !== undefined) {
+            if (session === null) {
+                router.replace("/")
+            }
+        }
+    }, [session])
 
     return (
         <div className={"flex flex-col items-center " + inder.className}>
@@ -50,11 +62,11 @@ export default function DashboardLayout({
                         </div>
                     </div>
                     {/* if user session is not null. */ true &&
-                        <div className="flex items-center mr-6">
+                        <div className={"flex items-center mr-6" + (session === undefined ? " blur-sm" : "")}>
                             <p>
-                                {/* if the given name is not null. */ null || "Name"}
+                                {session?.user?.name || "Name"}
                             </p>
-                            <Image src={/* if the picture is not blank */ null || "/icons/profile.svg"} alt="User" width={40} height={40} priority className="ml-4 none-drag rounded-full object-cover" style={{ width: "40px", height: "40px" }} onClick={handleDropdown} />
+                            <Image src={session?.user?.image || "/icons/profile.svg"} alt="User" width={40} height={40} priority className="ml-4 none-drag rounded-full object-cover" style={{ width: "40px", height: "40px" }} onClick={handleDropdown} />
                         </div>
                     }
                 </div>
@@ -80,7 +92,7 @@ export default function DashboardLayout({
                                 </span>
                             </div>
                         }
-                        <div className="flex items-center" onClick={() => router.push("/")}>
+                        <div className="flex items-center" onClick={() => signOut()}>
                             <Image src="/icons/logout.svg" alt="Logout" width={16} height={16} priority className="ml-4 mr-2 none-drag" />
                             <span className="pr-4 py-1">
                                 Logout
